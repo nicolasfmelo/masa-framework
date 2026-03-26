@@ -1,0 +1,10 @@
+[project]
+name = "case-h-baseline"
+version = "0.1.0"
+description = "Case H baseline DDD/Clean implementation"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.135.2",
+    "python-multipart>=0.0.22",
+    "uvicorn>=0.42.0",
+]

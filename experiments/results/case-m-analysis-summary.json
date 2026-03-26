@@ -1,0 +1,286 @@
+{
+  "case_id": "case-m",
+  "case_title": "Case M",
+  "core_table": [
+    {
+      "architecture": "baseline",
+      "model_tier": "frontier",
+      "R": 0.6460678210678211,
+      "G": 0.4922619047619048,
+      "V": 1.0,
+      "C_core": 0.7127765752765752,
+      "pass_rate": 1.0,
+      "avg_violations": 1.0,
+      "avg_tool_calls": 11.5
+    },
+    {
+      "architecture": "baseline",
+      "model_tier": "mid",
+      "R": 0.6333041958041957,
+      "G": 0.45445290576869524,
+      "V": 1.0,
+      "C_core": 0.6959190338576303,
+      "pass_rate": 1.0,
+      "avg_violations": 1.0,
+      "avg_tool_calls": 14.0
+    },
+    {
+      "architecture": "baseline",
+      "model_tier": "small",
+      "R": 0.6216089466089466,
+      "G": 0.4022667147667148,
+      "V": 1.0,
+      "C_core": 0.6746252204585538,
+      "pass_rate": 1.0,
+      "avg_violations": 1.0,
+      "avg_tool_calls": 18.916666666666668
+    },
+    {
+      "architecture": "masa-full",
+      "model_tier": "frontier",
+      "R": 0.7175084175084175,
+      "G": 0.608028083028083,
+      "V": 1.0,
+      "C_core": 0.7751788335121669,
+      "pass_rate": 1.0,
+      "avg_violations": 0.0,
+      "avg_tool_calls": 11.583333333333334
+    },
+    {
+      "architecture": "masa-full",
+      "model_tier": "mid",
+      "R": 0.6822853072853072,
+      "G": 0.5281746031746032,
+      "V": 1.0,
+      "C_core": 0.7368199701533035,
+      "pass_rate": 1.0,
+      "avg_violations": 0.0,
+      "avg_tool_calls": 17.416666666666668
+    },
+    {
+      "architecture": "masa-full",
+      "model_tier": "small",
+      "R": 0.7356962481962482,
+      "G": 0.5918981481481481,
+      "V": 1.0,
+      "C_core": 0.7758647987814654,
+      "pass_rate": 1.0,
+      "avg_violations": 0.0,
+      "avg_tool_calls": 19.583333333333332
+    }
+  ],
+  "interaction_table": [
+    {
+      "model_tier": "frontier",
+      "delta_c_core": 0.062402258235591646,
+      "relative_lift": 0.21726033764718344,
+      "pass_rate_delta": 0.0,
+      "violation_delta": -1.0,
+      "ci95_lower": 0.01878075628075626,
+      "ci95_upper": 0.10725709475709477
+    },
+    {
+      "model_tier": "mid",
+      "delta_c_core": 0.04090093629567315,
+      "relative_lift": 0.13450672962056912,
+      "pass_rate_delta": 0.0,
+      "violation_delta": -1.0,
+      "ci95_lower": 0.0010637510637510061,
+      "ci95_upper": 0.08319631148578521
+    },
+    {
+      "model_tier": "small",
+      "delta_c_core": 0.10123957832291164,
+      "relative_lift": 0.3111475894523526,
+      "pass_rate_delta": 0.0,
+      "violation_delta": -1.0,
+      "ci95_lower": 0.039128387045053614,
+      "ci95_upper": 0.1621141975308643
+    }
+  ],
+  "failed_runs": [
+    {
+      "task_id": "M-f01",
+      "condition": "full-edit",
+      "architecture": "baseline",
+      "model_id": "anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "model_tier": "mid",
+      "error": "An error occurred (ThrottlingException) when calling the InvokeModel operation (reached max retries: 4): Too many tokens per day, please wait before trying again.",
+      "provider_usage": {
+        "input_tokens": 19272,
+        "output_tokens": 255,
+        "stop_reason": "tool_use"
+      }
+    },
+    {
+      "task_id": "M-f02",
+      "condition": "full-edit",
+      "architecture": "baseline",
+      "model_id": "anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "model_tier": "mid",
+      "error": "An error occurred (ThrottlingException) when calling the InvokeModel operation (reached max retries: 4): Too many tokens per day, please wait before trying again.",
+      "provider_usage": {
+        "input_tokens": 19272,
+        "output_tokens": 255,
+        "stop_reason": "tool_use"
+      }
+    },
+    {
+      "task_id": "M-f03",
+      "condition": "full-edit",
+      "architecture": "baseline",
+      "model_id": "anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "model_tier": "mid",
+      "error": "An error occurred (ThrottlingException) when calling the InvokeModel operation (reached max retries: 4): Too many tokens per day, please wait before trying again.",
+      "provider_usage": {
+        "input_tokens": 19272,
+        "output_tokens": 255,
+        "stop_reason": "tool_use"
+      }
+    },
+    {
+      "task_id": "M-f04",
+      "condition": "full-edit",
+      "architecture": "baseline",
+      "model_id": "anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "model_tier": "mid",
+      "error": "An error occurred (ThrottlingException) when calling the InvokeModel operation (reached max retries: 4): Too many tokens per day, please wait before trying again.",
+      "provider_usage": {
+        "input_tokens": 19272,
+        "output_tokens": 255,
+        "stop_reason": "tool_use"
+      }
+    }
+  ],
+  "usage": {
+    "structure_only": [
+      {
+        "condition": "structure-only",
+        "architecture": "baseline",
+        "model_tier": "frontier",
+        "avg_total_tokens": 2263.5
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "baseline",
+        "model_tier": "mid",
+        "avg_total_tokens": 2379.25
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "baseline",
+        "model_tier": "small",
+        "avg_total_tokens": 2350.1666666666665
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "masa-full",
+        "model_tier": "frontier",
+        "avg_total_tokens": 1953.1666666666667
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "masa-full",
+        "model_tier": "mid",
+        "avg_total_tokens": 2050
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "masa-full",
+        "model_tier": "small",
+        "avg_total_tokens": 1982.1666666666667
+      }
+    ],
+    "full_edit": [
+      {
+        "condition": "full-edit",
+        "architecture": "baseline",
+        "model_tier": "frontier",
+        "avg_total_tokens": 18914.333333333332
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "baseline",
+        "model_tier": "mid",
+        "avg_total_tokens": 24659.875
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "baseline",
+        "model_tier": "small",
+        "avg_total_tokens": 31321.25
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "masa-full",
+        "model_tier": "frontier",
+        "avg_total_tokens": 11292.666666666666
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "masa-full",
+        "model_tier": "mid",
+        "avg_total_tokens": 19380.083333333332
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "masa-full",
+        "model_tier": "small",
+        "avg_total_tokens": 21276.916666666668
+      }
+    ]
+  },
+  "context_stats": {
+    "masa-full": {
+      "retrieval": {
+        "avg_files": 3.5,
+        "avg_edges": 3.375
+      },
+      "graph-reconstruction": {
+        "avg_files": 5.25,
+        "avg_edges": 4.75
+      },
+      "patch": {
+        "avg_files": 3.5,
+        "avg_edges": 3
+      },
+      "failure-path": {
+        "avg_files": 3.5,
+        "avg_edges": 1.5
+      }
+    },
+    "baseline": {
+      "retrieval": {
+        "avg_files": 3.375,
+        "avg_edges": 1.875
+      },
+      "graph-reconstruction": {
+        "avg_files": 4.75,
+        "avg_edges": 3.5
+      },
+      "patch": {
+        "avg_files": 3.375,
+        "avg_edges": 1.875
+      },
+      "failure-path": {
+        "avg_files": 3.5,
+        "avg_edges": 1.25
+      }
+    }
+  },
+  "import_stats": {
+    "masa-full": {
+      "avg_imports": 18.958333333333332,
+      "max_imports": 38
+    },
+    "baseline": {
+      "avg_imports": 15.166666666666666,
+      "max_imports": 29
+    }
+  },
+  "mixed_models": {
+    "retrieval_f1": "                            Mixed Linear Model Regression Results\n==============================================================================================\nModel:                        MixedLM             Dependent Variable:             retrieval_f1\nNo. Observations:             72                  Method:                         ML          \nNo. Groups:                   12                  Scale:                          0.0039      \nMin. group size:              6                   Log-Likelihood:                 67.4353     \nMax. group size:              6                   Converged:                      Yes         \nMean group size:              6.0                                                             \n----------------------------------------------------------------------------------------------\n                                                    Coef.  Std.Err.   z    P>|z| [0.025 0.975]\n----------------------------------------------------------------------------------------------\nIntercept                                            0.637    0.049 12.889 0.000  0.540  0.734\nC(architecture)[T.masa-full]                         0.071    0.026  2.786 0.005  0.021  0.122\nC(model_tier)[T.mid]                                -0.013    0.045 -0.283 0.777 -0.101  0.076\nC(model_tier)[T.small]                              -0.024    0.045 -0.542 0.588 -0.113  0.064\nC(difficulty)[T.low]                                 0.067    0.051  1.316 0.188 -0.033  0.166\nC(difficulty)[T.medium]                             -0.027    0.048 -0.558 0.577 -0.120  0.067\nC(architecture)[T.masa-full]:C(model_tier)[T.mid]   -0.022    0.036 -0.619 0.536 -0.094  0.049\nC(architecture)[T.masa-full]:C(model_tier)[T.small]  0.043    0.036  1.176 0.240 -0.028  0.114\nmodel_id Var                                         0.008    0.054                           \n==============================================================================================\n",
+    "graph_f1": "                            Mixed Linear Model Regression Results\n==============================================================================================\nModel:                          MixedLM              Dependent Variable:              graph_f1\nNo. Observations:               72                   Method:                          ML      \nNo. Groups:                     12                   Scale:                           0.0128  \nMin. group size:                6                    Log-Likelihood:                  -8.3366 \nMax. group size:                6                    Converged:                       Yes     \nMean group size:                6.0                                                           \n----------------------------------------------------------------------------------------------\n                                                    Coef.  Std.Err.   z    P>|z| [0.025 0.975]\n----------------------------------------------------------------------------------------------\nIntercept                                            0.361    0.218  1.652 0.099 -0.067  0.788\nC(architecture)[T.masa-full]                         0.116    0.046  2.502 0.012  0.025  0.206\nC(model_tier)[T.mid]                                -0.038    0.191 -0.198 0.843 -0.412  0.336\nC(model_tier)[T.small]                              -0.090    0.191 -0.472 0.637 -0.464  0.284\nC(difficulty)[T.low]                                 0.248    0.230  1.078 0.281 -0.203  0.699\nC(difficulty)[T.medium]                              0.098    0.217  0.451 0.652 -0.328  0.523\nC(architecture)[T.masa-full]:C(model_tier)[T.mid]   -0.042    0.065 -0.642 0.521 -0.170  0.086\nC(architecture)[T.masa-full]:C(model_tier)[T.small]  0.074    0.065  1.129 0.259 -0.054  0.202\nmodel_id Var                                         0.206                                    \n==============================================================================================\n",
+    "compliance_score": "                         Mixed Linear Model Regression Results\n========================================================================================\nModel:                      MixedLM         Dependent Variable:         compliance_score\nNo. Observations:           68              Method:                     ML              \nNo. Groups:                 12              Scale:                      0.0000          \nMin. group size:            5               Log-Likelihood:             inf             \nMax. group size:            6               Converged:                  Yes             \nMean group size:            5.7                                                         \n----------------------------------------------------------------------------------------\n                                                    Coef. Std.Err. z P>|z| [0.025 0.975]\n----------------------------------------------------------------------------------------\nIntercept                                           1.000                               \nC(architecture)[T.masa-full]                        0.000                               \nC(model_tier)[T.mid]                                0.000                               \nC(model_tier)[T.small]                              0.000                               \nC(difficulty)[T.low]                                0.000                               \nC(difficulty)[T.medium]                             0.000                               \nC(architecture)[T.masa-full]:C(model_tier)[T.mid]   0.000                               \nC(architecture)[T.masa-full]:C(model_tier)[T.small] 0.000                               \nmodel_id Var                                        0.000                               \n========================================================================================\n"
+  }
+}

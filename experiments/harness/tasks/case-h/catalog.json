@@ -1,0 +1,1132 @@
+{
+  "version": "1.0",
+  "case": "case-h",
+  "description": "Task catalog for Case H (Order Fulfillment / Multi-Warehouse Service), with dual ground truth for MASA and DDD/Clean baseline architectures.",
+  "tasks": [
+    {
+      "task_id": "H-r01",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "high",
+      "description": "Introduce a payment_review order status for high-risk orders before shipment planning begins.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/order.py",
+            "src/engines/payment_risk_engine.py",
+            "src/services/fulfillment_service.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/fulfillment_service.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/engines/payment_risk_engine.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/domain_models/order.py"
+            ]
+          ],
+          "target_layer": "domain_models"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/order.py",
+            "src/domain/services/fulfillment_policies.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/fulfill_order.py"
+            ],
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/domain/services/fulfillment_policies.py"
+            ],
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/domain/entities/order.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "H-r02",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Change the payment risk thresholds that decide low, medium, and high authorization risk.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/engines/payment_risk_engine.py",
+            "src/services/fulfillment_service.py",
+            "src/domain_models/payment_authorization.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/engines/payment_risk_engine.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/payment_gateway.py"
+            ]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/services/fulfillment_policies.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/domain/entities/payment_authorization.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/domain/services/fulfillment_policies.py"
+            ],
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/application/ports.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "H-r03",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Prefer same-region warehouses before falling back to remote warehouses during allocation.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/engines/allocation_engine.py",
+            "src/services/fulfillment_service.py",
+            "src/domain_models/inventory.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/engines/allocation_engine.py"
+            ],
+            [
+              "src/engines/allocation_engine.py",
+              "src/domain_models/inventory.py"
+            ]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/services/fulfillment_policies.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/domain/entities/inventory.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/domain/services/fulfillment_policies.py"
+            ],
+            [
+              "src/domain/services/fulfillment_policies.py",
+              "src/domain/entities/inventory.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "H-r04",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Expose payment authorization status and gateway reference in fulfillment response payloads.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/payment_authorization.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py",
+            "src/delivery/http/order_fulfillment_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/fulfillment_service.py"
+            ],
+            [
+              "src/delivery/schemas/order_fulfillment_schemas.py",
+              "src/domain_models/payment_authorization.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/payment_authorization.py",
+            "src/presentation/http/order_schemas.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/fulfill_order.py"
+            ],
+            [
+              "src/presentation/http/order_schemas.py",
+              "src/domain/entities/payment_authorization.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "H-r05",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Include the selected warehouse id in fulfillment success events emitted after shipment creation.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/services/fulfillment_service.py",
+            "src/integrations/external_apis/warehouse_event_bus.py",
+            "src/domain_models/shipment.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/warehouse_event_bus.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/shipment_gateway.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/application/use_cases/fulfill_order.py",
+            "src/infrastructure/gateways/in_memory_gateways.py",
+            "src/domain/entities/shipment.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/application/ports.py"
+            ],
+            [
+              "src/infrastructure/gateways/in_memory_gateways.py",
+              "src/domain/entities/shipment.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "H-r06",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "high",
+      "description": "Return attempt counts and related reconciliation details in the reconciliation API response.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/reconciliation_report.py",
+            "src/services/reconciliation_service.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py",
+            "src/delivery/http/order_fulfillment_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/reconciliation_service.py"
+            ],
+            [
+              "src/services/reconciliation_service.py",
+              "src/domain_models/reconciliation_report.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/application/use_cases/reconcile_order.py",
+            "src/presentation/http/order_schemas.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/reconcile_order.py"
+            ],
+            [
+              "src/application/use_cases/reconcile_order.py",
+              "src/application/ports.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "H-r07",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "high",
+      "description": "Ensure the same order/idempotency-key pair never creates a second shipment when fulfillment is replayed.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/integrations/database/repos/fulfillment_attempt_repo.py",
+            "src/integrations/database/repos/shipment_repo.py",
+            "src/services/fulfillment_service.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/database/repos/fulfillment_attempt_repo.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/database/repos/shipment_repo.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/infrastructure/repositories/in_memory_repositories.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/application/ports.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/application/ports.py"
+            ],
+            [
+              "src/infrastructure/repositories/in_memory_repositories.py",
+              "src/domain/entities/fulfillment_attempt.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "H-r08",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Support cancelled shipments in reconciliation logic and API models.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/shipment.py",
+            "src/engines/reconciliation_engine.py",
+            "src/services/reconciliation_service.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py"
+          ],
+          "edges": [
+            [
+              "src/services/reconciliation_service.py",
+              "src/engines/reconciliation_engine.py"
+            ],
+            [
+              "src/engines/reconciliation_engine.py",
+              "src/domain_models/shipment.py"
+            ]
+          ],
+          "target_layer": "domain_models"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/shipment.py",
+            "src/domain/services/fulfillment_policies.py",
+            "src/application/use_cases/reconcile_order.py",
+            "src/presentation/http/order_schemas.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/reconcile_order.py",
+              "src/domain/services/fulfillment_policies.py"
+            ],
+            [
+              "src/domain/services/fulfillment_policies.py",
+              "src/domain/entities/shipment.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "H-g01",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Identify the request-to-persistence call chain for creating an order.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/order_fulfillment_handler.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py",
+            "src/services/order_intake_service.py",
+            "src/integrations/database/repos/order_repo.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/order_intake_service.py"
+            ],
+            [
+              "src/services/order_intake_service.py",
+              "src/integrations/database/repos/order_repo.py"
+            ],
+            [
+              "src/delivery/schemas/order_fulfillment_schemas.py",
+              "src/domain_models/order.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/order_controller.py",
+            "src/presentation/http/order_schemas.py",
+            "src/application/use_cases/create_order.py",
+            "src/application/ports.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/create_order.py"
+            ],
+            [
+              "src/application/use_cases/create_order.py",
+              "src/application/ports.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "H-g02",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "high",
+      "description": "Identify the collaborators involved in a full fulfillment run: allocation, payment, shipment, and event publication.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/order_fulfillment_handler.py",
+            "src/services/fulfillment_service.py",
+            "src/engines/allocation_engine.py",
+            "src/engines/payment_risk_engine.py",
+            "src/engines/shipment_engine.py",
+            "src/integrations/external_apis/payment_gateway.py",
+            "src/integrations/external_apis/shipment_gateway.py",
+            "src/integrations/external_apis/warehouse_event_bus.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/fulfillment_service.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/engines/allocation_engine.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/engines/payment_risk_engine.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/engines/shipment_engine.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/payment_gateway.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/shipment_gateway.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/warehouse_event_bus.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/order_controller.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/domain/services/fulfillment_policies.py",
+            "src/application/ports.py",
+            "src/infrastructure/gateways/in_memory_gateways.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/fulfill_order.py"
+            ],
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/domain/services/fulfillment_policies.py"
+            ],
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/application/ports.py"
+            ],
+            [
+              "src/infrastructure/gateways/in_memory_gateways.py",
+              "src/domain/entities/shipment.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "H-g03",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Identify the retry fulfillment chain, including how failed attempts are checked before rerunning fulfillment.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/order_fulfillment_handler.py",
+            "src/services/fulfillment_service.py",
+            "src/integrations/database/repos/fulfillment_attempt_repo.py",
+            "src/integrations/database/repos/order_repo.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/fulfillment_service.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/database/repos/fulfillment_attempt_repo.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/database/repos/order_repo.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/order_controller.py",
+            "src/application/use_cases/retry_fulfillment.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/application/ports.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/retry_fulfillment.py"
+            ],
+            [
+              "src/application/use_cases/retry_fulfillment.py",
+              "src/application/use_cases/fulfill_order.py"
+            ],
+            [
+              "src/application/use_cases/retry_fulfillment.py",
+              "src/application/ports.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "H-g04",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "high",
+      "description": "Identify the collaborators used when reconciling an order across attempts, authorizations, and shipments.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/order_fulfillment_handler.py",
+            "src/services/reconciliation_service.py",
+            "src/engines/reconciliation_engine.py",
+            "src/integrations/database/repos/payment_authorization_repo.py",
+            "src/integrations/database/repos/shipment_repo.py",
+            "src/integrations/database/repos/fulfillment_attempt_repo.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/reconciliation_service.py"
+            ],
+            [
+              "src/services/reconciliation_service.py",
+              "src/engines/reconciliation_engine.py"
+            ],
+            [
+              "src/services/reconciliation_service.py",
+              "src/integrations/database/repos/payment_authorization_repo.py"
+            ],
+            [
+              "src/services/reconciliation_service.py",
+              "src/integrations/database/repos/shipment_repo.py"
+            ],
+            [
+              "src/services/reconciliation_service.py",
+              "src/integrations/database/repos/fulfillment_attempt_repo.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/order_controller.py",
+            "src/application/use_cases/reconcile_order.py",
+            "src/domain/services/fulfillment_policies.py",
+            "src/application/ports.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/reconcile_order.py"
+            ],
+            [
+              "src/application/use_cases/reconcile_order.py",
+              "src/domain/services/fulfillment_policies.py"
+            ],
+            [
+              "src/application/use_cases/reconcile_order.py",
+              "src/application/ports.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "H-p01",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Add a payment_review order status for high-risk orders before shipment planning and surface it in responses.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/order.py",
+            "src/engines/payment_risk_engine.py",
+            "src/services/fulfillment_service.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/engines/payment_risk_engine.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/domain_models/order.py"
+            ]
+          ],
+          "target_layer": "domain_models"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/order.py",
+            "src/domain/services/fulfillment_policies.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/presentation/http/order_schemas.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/domain/services/fulfillment_policies.py"
+            ],
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/fulfill_order.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "H-p02",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Include warehouse region in fulfillment success events emitted after shipment creation.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/inventory.py",
+            "src/services/fulfillment_service.py",
+            "src/integrations/external_apis/warehouse_event_bus.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/warehouse_event_bus.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/engines/allocation_engine.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/inventory.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/infrastructure/gateways/in_memory_gateways.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/domain/services/fulfillment_policies.py"
+            ],
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/application/ports.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "H-p03",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Expose payment gateway reference in fulfillment response payloads.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/payment_authorization.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py",
+            "src/delivery/http/order_fulfillment_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/fulfillment_service.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/payment_authorization.py",
+            "src/presentation/http/order_schemas.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/fulfill_order.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "H-p04",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Return attempt_count in reconciliation responses.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/reconciliation_report.py",
+            "src/services/reconciliation_service.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py",
+            "src/delivery/http/order_fulfillment_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/reconciliation_service.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/application/use_cases/reconcile_order.py",
+            "src/presentation/http/order_schemas.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/reconcile_order.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "H-p05",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Prefer same-region warehouse allocations before remote fallback, even when remote capacity is slightly higher.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/engines/allocation_engine.py",
+            "src/services/fulfillment_service.py",
+            "src/domain_models/inventory.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/engines/allocation_engine.py"
+            ],
+            [
+              "src/engines/allocation_engine.py",
+              "src/domain_models/inventory.py"
+            ]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/services/fulfillment_policies.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/domain/entities/inventory.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/domain/services/fulfillment_policies.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "H-p06",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "low",
+      "description": "Mark newly created shipments as scheduled instead of queued.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/shipment.py",
+            "src/integrations/external_apis/shipment_gateway.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/shipment_gateway.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/shipment.py",
+            "src/infrastructure/gateways/in_memory_gateways.py",
+            "src/presentation/http/order_schemas.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/application/ports.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "H-p07",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Expose latest_error_code on order responses for failed orders by using the last fulfillment attempt.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/fulfillment_attempt.py",
+            "src/services/fulfillment_service.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py",
+            "src/delivery/http/order_fulfillment_handler.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/database/repos/fulfillment_attempt_repo.py"
+            ],
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/fulfillment_service.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/fulfillment_attempt.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/presentation/http/order_schemas.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/application/ports.py"
+            ],
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/fulfill_order.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "H-p08",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Do not append duplicate success events when the same idempotency key replays a fulfilled order.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/services/fulfillment_service.py",
+            "src/integrations/database/repos/fulfillment_attempt_repo.py",
+            "src/integrations/external_apis/warehouse_event_bus.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/database/repos/fulfillment_attempt_repo.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/warehouse_event_bus.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/application/use_cases/fulfill_order.py",
+            "src/infrastructure/repositories/in_memory_repositories.py",
+            "src/infrastructure/gateways/in_memory_gateways.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/application/ports.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "H-f01",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Reject retry requests when the order has no failed attempt yet, surfacing a semantic conflict error.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/exceptions.py",
+            "src/services/fulfillment_service.py",
+            "src/delivery/http/order_fulfillment_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/fulfillment_service.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/errors.py",
+            "src/application/use_cases/retry_fulfillment.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/retry_fulfillment.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "H-f02",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Reject order creation with empty line_items through a stable business-facing validation error.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/order.py",
+            "src/delivery/schemas/order_fulfillment_schemas.py",
+            "src/delivery/http/order_fulfillment_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/order_intake_service.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/order.py",
+            "src/presentation/http/order_schemas.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/create_order.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "H-f03",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Surface shipment gateway failures as semantic fulfillment failures instead of leaking generic exceptions.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/exceptions.py",
+            "src/integrations/external_apis/shipment_gateway.py",
+            "src/services/fulfillment_service.py",
+            "src/delivery/http/order_fulfillment_handler.py"
+          ],
+          "edges": [
+            [
+              "src/services/fulfillment_service.py",
+              "src/integrations/external_apis/shipment_gateway.py"
+            ],
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/fulfillment_service.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/errors.py",
+            "src/infrastructure/gateways/in_memory_gateways.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/application/ports.py"
+            ],
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/fulfill_order.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "H-f04",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Reject a fresh fulfillment request for an already fulfilled order when a new idempotency key is provided.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/exceptions.py",
+            "src/domain_models/order.py",
+            "src/services/fulfillment_service.py",
+            "src/delivery/http/order_fulfillment_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/order_fulfillment_handler.py",
+              "src/services/fulfillment_service.py"
+            ],
+            [
+              "src/services/fulfillment_service.py",
+              "src/domain_models/order.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/errors.py",
+            "src/domain/entities/order.py",
+            "src/application/use_cases/fulfill_order.py",
+            "src/presentation/http/order_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/order_controller.py",
+              "src/application/use_cases/fulfill_order.py"
+            ],
+            [
+              "src/application/use_cases/fulfill_order.py",
+              "src/domain/entities/order.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    }
+  ]
+}

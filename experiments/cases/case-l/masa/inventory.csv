@@ -1,0 +1,9 @@
+timestamp,product_id,product_name,type,quantity
+1710000001,A1,Widget,in,100
+1710000002,A1,Widget,out,30
+1710000003,B2,Gadget,in,8
+1710000004,B2,Gadget,out,3
+1710000005,C3,Doohickey,in,20
+1710000006,C3,Doohickey,out,25
+1710000007,D4,Thingamajig,in,50
+1710000008,D4,Thingamajig,out,45

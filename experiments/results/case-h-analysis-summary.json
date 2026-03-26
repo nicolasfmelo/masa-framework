@@ -1,0 +1,233 @@
+{
+  "case_id": "case-h",
+  "case_title": "Case H",
+  "core_table": [
+    {
+      "architecture": "baseline",
+      "model_tier": "frontier",
+      "R": 0.625523088023088,
+      "G": 0.5141330891330892,
+      "V": 1.0,
+      "C_core": 0.7132187257187258,
+      "pass_rate": 1.0,
+      "avg_violations": 1.0,
+      "avg_tool_calls": 15.833333333333334
+    },
+    {
+      "architecture": "baseline",
+      "model_tier": "mid",
+      "R": 0.6258144633144632,
+      "G": 0.41646779146779145,
+      "V": 1.0,
+      "C_core": 0.6807607515940849,
+      "pass_rate": 1.0,
+      "avg_violations": 1.0,
+      "avg_tool_calls": 13.5
+    },
+    {
+      "architecture": "baseline",
+      "model_tier": "small",
+      "R": 0.5922077922077922,
+      "G": 0.39402726902726903,
+      "V": 1.0,
+      "C_core": 0.6620783537450204,
+      "pass_rate": 1.0,
+      "avg_violations": 1.0,
+      "avg_tool_calls": 16.75
+    },
+    {
+      "architecture": "masa-full",
+      "model_tier": "frontier",
+      "R": 0.6883714596949891,
+      "G": 0.5622421695951108,
+      "V": 1.0,
+      "C_core": 0.7502045430967,
+      "pass_rate": 1.0,
+      "avg_violations": 0.0,
+      "avg_tool_calls": 12.833333333333334
+    },
+    {
+      "architecture": "masa-full",
+      "model_tier": "mid",
+      "R": 0.6415155551519187,
+      "G": 0.5045093795093796,
+      "V": 1.0,
+      "C_core": 0.7153416448870994,
+      "pass_rate": 1.0,
+      "avg_violations": 0.0,
+      "avg_tool_calls": 14.0
+    },
+    {
+      "architecture": "masa-full",
+      "model_tier": "small",
+      "R": 0.6696097883597883,
+      "G": 0.4840608465608465,
+      "V": 1.0,
+      "C_core": 0.7178902116402117,
+      "pass_rate": 1.0,
+      "avg_violations": 0.0,
+      "avg_tool_calls": 14.833333333333334
+    }
+  ],
+  "interaction_table": [
+    {
+      "model_tier": "frontier",
+      "delta_c_core": 0.03698581737797424,
+      "relative_lift": 0.12896873225306427,
+      "pass_rate_delta": 0.0,
+      "violation_delta": -1.0,
+      "ci95_lower": -0.009389530222863485,
+      "ci95_upper": 0.0887405894758837
+    },
+    {
+      "model_tier": "mid",
+      "delta_c_core": 0.0345808932930145,
+      "relative_lift": 0.1083228126418987,
+      "pass_rate_delta": 0.0,
+      "violation_delta": -1.0,
+      "ci95_lower": 0.016091736546282043,
+      "ci95_upper": 0.05308577505547207
+    },
+    {
+      "model_tier": "small",
+      "delta_c_core": 0.055811857895191275,
+      "relative_lift": 0.16516212711948708,
+      "pass_rate_delta": 0.0,
+      "violation_delta": -1.0,
+      "ci95_lower": 0.02851708476708481,
+      "ci95_upper": 0.08645713854047188
+    }
+  ],
+  "failed_runs": [],
+  "usage": {
+    "structure_only": [
+      {
+        "condition": "structure-only",
+        "architecture": "baseline",
+        "model_tier": "frontier",
+        "avg_total_tokens": 2865.3333333333335
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "baseline",
+        "model_tier": "mid",
+        "avg_total_tokens": 2972.25
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "baseline",
+        "model_tier": "small",
+        "avg_total_tokens": 2958.5
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "masa-full",
+        "model_tier": "frontier",
+        "avg_total_tokens": 2854.25
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "masa-full",
+        "model_tier": "mid",
+        "avg_total_tokens": 2958.181818181818
+      },
+      {
+        "condition": "structure-only",
+        "architecture": "masa-full",
+        "model_tier": "small",
+        "avg_total_tokens": 2931.0833333333335
+      }
+    ],
+    "full_edit": [
+      {
+        "condition": "full-edit",
+        "architecture": "baseline",
+        "model_tier": "frontier",
+        "avg_total_tokens": 18206.583333333332
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "baseline",
+        "model_tier": "mid",
+        "avg_total_tokens": 17775.666666666668
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "baseline",
+        "model_tier": "small",
+        "avg_total_tokens": 21241.416666666668
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "masa-full",
+        "model_tier": "frontier",
+        "avg_total_tokens": 14115.666666666666
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "masa-full",
+        "model_tier": "mid",
+        "avg_total_tokens": 18400.166666666668
+      },
+      {
+        "condition": "full-edit",
+        "architecture": "masa-full",
+        "model_tier": "small",
+        "avg_total_tokens": 18536
+      }
+    ]
+  },
+  "context_stats": {
+    "masa-full": {
+      "retrieval": {
+        "avg_files": 3.375,
+        "avg_edges": 2.125
+      },
+      "graph-reconstruction": {
+        "avg_files": 5.5,
+        "avg_edges": 4.5
+      },
+      "patch": {
+        "avg_files": 3.375,
+        "avg_edges": 1.625
+      },
+      "failure-path": {
+        "avg_files": 3.5,
+        "avg_edges": 1.5
+      }
+    },
+    "baseline": {
+      "retrieval": {
+        "avg_files": 3.25,
+        "avg_edges": 2.125
+      },
+      "graph-reconstruction": {
+        "avg_files": 4.25,
+        "avg_edges": 3
+      },
+      "patch": {
+        "avg_files": 3.25,
+        "avg_edges": 1.375
+      },
+      "failure-path": {
+        "avg_files": 3.5,
+        "avg_edges": 1.5
+      }
+    }
+  },
+  "import_stats": {
+    "masa-full": {
+      "avg_imports": 21.333333333333332,
+      "max_imports": 43
+    },
+    "baseline": {
+      "avg_imports": 18.625,
+      "max_imports": 37
+    }
+  },
+  "mixed_models": {
+    "retrieval_f1": "                            Mixed Linear Model Regression Results\n==============================================================================================\nModel:                        MixedLM             Dependent Variable:             retrieval_f1\nNo. Observations:             71                  Method:                         ML          \nNo. Groups:                   12                  Scale:                          0.0020      \nMin. group size:              5                   Log-Likelihood:                 56.7887     \nMax. group size:              6                   Converged:                      Yes         \nMean group size:              5.9                                                             \n----------------------------------------------------------------------------------------------\n                                                    Coef.  Std.Err.   z    P>|z| [0.025 0.975]\n----------------------------------------------------------------------------------------------\nIntercept                                            0.582    0.065  9.010 0.000  0.456  0.709\nC(architecture)[T.masa-full]                         0.063    0.018  3.419 0.001  0.027  0.099\nC(model_tier)[T.mid]                                 0.000    0.076  0.004 0.997 -0.148  0.149\nC(model_tier)[T.small]                              -0.033    0.076 -0.440 0.660 -0.182  0.115\nC(difficulty)[T.low]                                 0.214    0.116  1.853 0.064 -0.012  0.441\nC(difficulty)[T.medium]                              0.051    0.064  0.797 0.425 -0.074  0.176\nC(architecture)[T.masa-full]:C(model_tier)[T.mid]   -0.055    0.027 -2.082 0.037 -0.107 -0.003\nC(architecture)[T.masa-full]:C(model_tier)[T.small]  0.015    0.026  0.560 0.576 -0.036  0.066\nmodel_id Var                                         0.032                                    \n==============================================================================================\n",
+    "graph_f1": "                            Mixed Linear Model Regression Results\n==============================================================================================\nModel:                          MixedLM              Dependent Variable:              graph_f1\nNo. Observations:               71                   Method:                          ML      \nNo. Groups:                     12                   Scale:                           0.0089  \nMin. group size:                5                    Log-Likelihood:                  4.2225  \nMax. group size:                6                    Converged:                       Yes     \nMean group size:                5.9                                                           \n----------------------------------------------------------------------------------------------\n                                                    Coef.  Std.Err.   z    P>|z| [0.025 0.975]\n----------------------------------------------------------------------------------------------\nIntercept                                            0.495    0.135  3.651 0.000  0.229  0.760\nC(architecture)[T.masa-full]                         0.048    0.039  1.248 0.212 -0.027  0.124\nC(model_tier)[T.mid]                                -0.098    0.159 -0.615 0.539 -0.409  0.214\nC(model_tier)[T.small]                              -0.120    0.159 -0.756 0.450 -0.432  0.191\nC(difficulty)[T.low]                                 0.190    0.243  0.783 0.433 -0.285  0.665\nC(difficulty)[T.medium]                              0.007    0.134  0.054 0.957 -0.256  0.270\nC(architecture)[T.masa-full]:C(model_tier)[T.mid]    0.027    0.056  0.485 0.628 -0.082  0.136\nC(architecture)[T.masa-full]:C(model_tier)[T.small]  0.042    0.055  0.769 0.442 -0.065  0.149\nmodel_id Var                                         0.143                                    \n==============================================================================================\n",
+    "compliance_score": "                         Mixed Linear Model Regression Results\n========================================================================================\nModel:                      MixedLM         Dependent Variable:         compliance_score\nNo. Observations:           72              Method:                     ML              \nNo. Groups:                 12              Scale:                      0.0000          \nMin. group size:            6               Log-Likelihood:             inf             \nMax. group size:            6               Converged:                  Yes             \nMean group size:            6.0                                                         \n----------------------------------------------------------------------------------------\n                                                    Coef. Std.Err. z P>|z| [0.025 0.975]\n----------------------------------------------------------------------------------------\nIntercept                                           1.000                               \nC(architecture)[T.masa-full]                        0.000                               \nC(model_tier)[T.mid]                                0.000                               \nC(model_tier)[T.small]                              0.000                               \nC(difficulty)[T.low]                                0.000                               \nC(difficulty)[T.medium]                             0.000                               \nC(architecture)[T.masa-full]:C(model_tier)[T.mid]   0.000                               \nC(architecture)[T.masa-full]:C(model_tier)[T.small] 0.000                               \nmodel_id Var                                        0.000                               \n========================================================================================\n"
+  }
+}

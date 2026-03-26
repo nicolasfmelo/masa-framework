@@ -1,0 +1,105 @@
+{
+  "core_table": [
+    {
+      "architecture": "baseline",
+      "model_tier": "frontier",
+      "R": 0.6564153439153438,
+      "G": 0.6992063492063493,
+      "V": 0.8916666666666666,
+      "C_core": 0.7490961199294532,
+      "pass_rate": 1.0,
+      "avg_violations": 21.083333333333332,
+      "avg_tool_calls": 10.833333333333334
+    },
+    {
+      "architecture": "baseline",
+      "model_tier": "mid",
+      "R": 0.6740079365079366,
+      "G": 0.7158730158730159,
+      "V": 0.6458333333333334,
+      "C_core": 0.6785714285714287,
+      "pass_rate": 1.0,
+      "avg_violations": 21.666666666666668,
+      "avg_tool_calls": 14.333333333333334
+    },
+    {
+      "architecture": "baseline",
+      "model_tier": "small",
+      "R": 0.6490079365079365,
+      "G": 0.5996031746031746,
+      "V": 0.623015873015873,
+      "C_core": 0.6238756613756614,
+      "pass_rate": 1.0,
+      "avg_violations": 22.083333333333332,
+      "avg_tool_calls": 15.75
+    },
+    {
+      "architecture": "masa-full",
+      "model_tier": "frontier",
+      "R": 0.7140812890812892,
+      "G": 0.767526455026455,
+      "V": 1.0,
+      "C_core": 0.8272025813692481,
+      "pass_rate": 1.0,
+      "avg_violations": 0.0,
+      "avg_tool_calls": 11.333333333333334
+    },
+    {
+      "architecture": "masa-full",
+      "model_tier": "mid",
+      "R": 0.6733766233766234,
+      "G": 0.6971560846560846,
+      "V": 1.0,
+      "C_core": 0.790177569344236,
+      "pass_rate": 1.0,
+      "avg_violations": 0.0,
+      "avg_tool_calls": 22.75
+    },
+    {
+      "architecture": "masa-full",
+      "model_tier": "small",
+      "R": 0.6268278018278018,
+      "G": 0.5832010582010582,
+      "V": 1.0,
+      "C_core": 0.7366762866762867,
+      "pass_rate": 1.0,
+      "avg_violations": 0.0,
+      "avg_tool_calls": 21.416666666666668
+    }
+  ],
+  "interaction_table": [
+    {
+      "model_tier": "frontier",
+      "delta_c_core": 0.07810646143979483,
+      "relative_lift": 0.3113003330910371,
+      "pass_rate_delta": 0.0,
+      "violation_delta": -21.083333333333332,
+      "ci95_lower": 0.024302549302549603,
+      "ci95_upper": 0.14037598204264878
+    },
+    {
+      "model_tier": "mid",
+      "delta_c_core": 0.11160614077280728,
+      "relative_lift": 0.3472191046265117,
+      "pass_rate_delta": 0.0,
+      "violation_delta": -21.666666666666668,
+      "ci95_lower": 0.03305475388808721,
+      "ci95_upper": 0.18398268398268403
+    },
+    {
+      "model_tier": "small",
+      "delta_c_core": 0.11280062530062529,
+      "relative_lift": 0.29990248893009575,
+      "pass_rate_delta": 0.0,
+      "violation_delta": -22.083333333333332,
+      "ci95_lower": 0.022997835497835628,
+      "ci95_upper": 0.1990400032066698
+    }
+  ],
+  "failed_runs": [],
+  "mixed_models": {
+    "retrieval_f1": "                            Mixed Linear Model Regression Results\n==============================================================================================\nModel:                        MixedLM             Dependent Variable:             retrieval_f1\nNo. Observations:             72                  Method:                         ML          \nNo. Groups:                   12                  Scale:                          0.0071      \nMin. group size:              6                   Log-Likelihood:                 35.3977     \nMax. group size:              6                   Converged:                      Yes         \nMean group size:              6.0                                                             \n----------------------------------------------------------------------------------------------\n                                                    Coef.  Std.Err.   z    P>|z| [0.025 0.975]\n----------------------------------------------------------------------------------------------\nIntercept                                            0.566    0.062  9.186 0.000  0.445  0.687\nC(architecture)[T.masa-full]                         0.058    0.034  1.680 0.093 -0.010  0.125\nC(model_tier)[T.mid]                                 0.018    0.079  0.223 0.824 -0.137  0.173\nC(model_tier)[T.small]                              -0.007    0.079 -0.094 0.925 -0.162  0.148\nC(difficulty)[T.medium]                              0.217    0.062  3.483 0.000  0.095  0.339\nC(architecture)[T.masa-full]:C(model_tier)[T.mid]   -0.058    0.049 -1.201 0.230 -0.153  0.037\nC(architecture)[T.masa-full]:C(model_tier)[T.small] -0.080    0.049 -1.645 0.100 -0.175  0.015\nmodel_id Var                                         0.030    0.135                           \n==============================================================================================\n",
+    "graph_f1": "                            Mixed Linear Model Regression Results\n==============================================================================================\nModel:                          MixedLM              Dependent Variable:              graph_f1\nNo. Observations:               72                   Method:                          ML      \nNo. Groups:                     12                   Scale:                           0.0163  \nMin. group size:                6                    Log-Likelihood:                  39.0875 \nMax. group size:                6                    Converged:                       Yes     \nMean group size:                6.0                                                           \n----------------------------------------------------------------------------------------------\n                                                    Coef.  Std.Err.   z    P>|z| [0.025 0.975]\n----------------------------------------------------------------------------------------------\nIntercept                                            0.635    0.044 14.518 0.000  0.550  0.721\nC(architecture)[T.masa-full]                         0.068    0.052  1.309 0.190 -0.034  0.171\nC(model_tier)[T.mid]                                 0.017    0.058  0.288 0.774 -0.097  0.130\nC(model_tier)[T.small]                              -0.100    0.058 -1.720 0.085 -0.213  0.014\nC(difficulty)[T.medium]                              0.153    0.037  4.151 0.000  0.081  0.226\nC(architecture)[T.masa-full]:C(model_tier)[T.mid]   -0.087    0.074 -1.179 0.238 -0.232  0.058\nC(architecture)[T.masa-full]:C(model_tier)[T.small] -0.085    0.074 -1.148 0.251 -0.229  0.060\nmodel_id Var                                         0.004    0.031                           \n==============================================================================================\n",
+    "compliance_score": "                            Mixed Linear Model Regression Results\n==============================================================================================\nModel:                        MixedLM           Dependent Variable:           compliance_score\nNo. Observations:             72                Method:                       ML              \nNo. Groups:                   12                Scale:                        0.0230          \nMin. group size:              6                 Log-Likelihood:               -29.3649        \nMax. group size:              6                 Converged:                    Yes             \nMean group size:              6.0                                                             \n----------------------------------------------------------------------------------------------\n                                                    Coef.  Std.Err.   z    P>|z| [0.025 0.975]\n----------------------------------------------------------------------------------------------\nIntercept                                            0.839    0.232  3.616 0.000  0.384  1.293\nC(architecture)[T.masa-full]                         0.108    0.062  1.748 0.080 -0.013  0.230\nC(model_tier)[T.mid]                                -0.246    0.256 -0.962 0.336 -0.747  0.255\nC(model_tier)[T.small]                              -0.269    0.256 -1.051 0.293 -0.769  0.232\nC(difficulty)[T.low]                                 0.193    0.308  0.626 0.531 -0.411  0.797\nC(difficulty)[T.medium]                              0.042    0.230  0.182 0.855 -0.408  0.492\nC(architecture)[T.masa-full]:C(model_tier)[T.mid]    0.246    0.088  2.805 0.005  0.074  0.418\nC(architecture)[T.masa-full]:C(model_tier)[T.small]  0.269    0.088  3.065 0.002  0.097  0.440\nmodel_id Var                                         0.369                                    \n==============================================================================================\n"
+  }
+}

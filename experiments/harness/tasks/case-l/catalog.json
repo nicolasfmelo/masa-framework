@@ -1,0 +1,699 @@
+{
+  "version": 1,
+  "case": "case-l",
+  "description": "Annotated benchmark catalog for the Inventory Analysis API.",
+  "tasks": [
+    {
+      "task_id": "L-r01",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Add expiry_date support to inventory movements and expose expired-item information in the API response.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/inventory.py",
+            "src/integrations/csv_parser.py",
+            "src/engines/inventory_engine.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"],
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/engines/inventory_engine.py", "src/domain_models/inventory.py"],
+            ["src/integrations/csv_parser.py", "src/domain_models/inventory.py"]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "app/models.py",
+            "app/utils.py",
+            "app/service.py",
+            "app/routes.py"
+          ],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/utils.py"],
+            ["app/service.py", "app/models.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    },
+    {
+      "task_id": "L-r02",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Accept semicolon-delimited CSV uploads without changing the API contract.",
+      "ground_truth": {
+        "masa": {
+          "files": ["src/integrations/csv_parser.py"],
+          "edges": [
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/integrations/csv_parser.py", "src/domain_models/inventory.py"]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": ["app/utils.py"],
+          "edges": [["app/service.py", "app/utils.py"]],
+          "target_layer": "utils"
+        }
+      }
+    },
+    {
+      "task_id": "L-r03",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Expose total_distinct_products in the API response.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/inventory.py",
+            "src/engines/inventory_engine.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"],
+            ["src/engines/inventory_engine.py", "src/domain_models/inventory.py"],
+            ["src/delivery/http/handlers.py", "src/delivery/schemas/inventory_schema.py"]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "app/service.py",
+            "app/routes.py"
+          ],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/models.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    },
+    {
+      "task_id": "L-r04",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Expose the latest_movement_timestamp for each product in the report.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/inventory.py",
+            "src/engines/inventory_engine.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"],
+            ["src/engines/inventory_engine.py", "src/domain_models/inventory.py"],
+            ["src/delivery/http/handlers.py", "src/delivery/schemas/inventory_schema.py"]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "app/models.py",
+            "app/service.py",
+            "app/routes.py"
+          ],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/models.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    },
+    {
+      "task_id": "L-r05",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Support an include_anomalies flag that optionally hides anomalies from the response payload.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/handlers.py",
+            "src/delivery/schemas/inventory_schema.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/delivery/http/handlers.py", "src/delivery/schemas/inventory_schema.py"]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": ["app/routes.py"],
+          "edges": [["app/routes.py", "app/service.py"]],
+          "target_layer": "routes"
+        }
+      }
+    },
+    {
+      "task_id": "L-r06",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Ignore duplicate movement rows based on a full-row fingerprint before inventory is computed.",
+      "ground_truth": {
+        "masa": {
+          "files": ["src/integrations/csv_parser.py"],
+          "edges": [
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/integrations/csv_parser.py", "src/domain_models/inventory.py"]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": ["app/utils.py"],
+          "edges": [["app/service.py", "app/utils.py"]],
+          "target_layer": "utils"
+        }
+      }
+    },
+    {
+      "task_id": "L-r07",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Return products sorted alphabetically by product_name in the API response.",
+      "ground_truth": {
+        "masa": {
+          "files": ["src/engines/inventory_engine.py"],
+          "edges": [
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"],
+            ["src/engines/inventory_engine.py", "src/domain_models/inventory.py"]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": ["app/service.py"],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/models.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    },
+    {
+      "task_id": "L-r08",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Accept movement_type as a CSV column alias for type.",
+      "ground_truth": {
+        "masa": {
+          "files": ["src/integrations/csv_parser.py"],
+          "edges": [
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": ["app/utils.py"],
+          "edges": [["app/service.py", "app/utils.py"]],
+          "target_layer": "utils"
+        }
+      }
+    },
+    {
+      "task_id": "L-g01",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Identify the call chain and collaborators involved in /analyze-inventory from request handling to inventory calculation.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/handlers.py",
+            "src/services/inventory_service.py",
+            "src/engines/inventory_engine.py",
+            "src/integrations/csv_parser.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": ["app/routes.py", "app/service.py", "app/utils.py"],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/utils.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    },
+    {
+      "task_id": "L-g02",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Reconstruct how malformed CSV errors propagate from parsing to the HTTP response.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/integrations/csv_parser.py",
+            "src/domain_models/exceptions.py",
+            "src/services/inventory_service.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/integrations/csv_parser.py", "src/domain_models/exceptions.py"],
+            ["src/delivery/http/handlers.py", "src/domain_models/exceptions.py"],
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": ["app/utils.py", "app/service.py", "app/routes.py"],
+          "edges": [
+            ["app/service.py", "app/utils.py"],
+            ["app/routes.py", "app/service.py"]
+          ],
+          "target_layer": "utils"
+        }
+      }
+    },
+    {
+      "task_id": "L-g03",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Reconstruct the collaborator graph used to compute low-stock alerts and serialize them back to the client.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/handlers.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/services/inventory_service.py",
+            "src/engines/inventory_engine.py",
+            "src/domain_models/inventory.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/delivery/schemas/inventory_schema.py"],
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"],
+            ["src/engines/inventory_engine.py", "src/domain_models/inventory.py"]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": ["app/routes.py", "app/service.py", "app/models.py"],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/models.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    },
+    {
+      "task_id": "L-g04",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Identify the parser dependencies and its immediate consumer in the inventory analysis flow.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/integrations/csv_parser.py",
+            "src/services/inventory_service.py",
+            "src/domain_models/inventory.py",
+            "src/domain_models/exceptions.py"
+          ],
+          "edges": [
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/integrations/csv_parser.py", "src/domain_models/inventory.py"],
+            ["src/integrations/csv_parser.py", "src/domain_models/exceptions.py"]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": ["app/utils.py", "app/service.py"],
+          "edges": [["app/service.py", "app/utils.py"]],
+          "target_layer": "utils"
+        }
+      }
+    },
+    {
+      "task_id": "L-p01",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Add warehouse support and compute stock per warehouse in the report.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/inventory.py",
+            "src/integrations/csv_parser.py",
+            "src/engines/inventory_engine.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": ["app/models.py", "app/utils.py", "app/service.py", "app/routes.py"],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/utils.py"],
+            ["app/service.py", "app/models.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    },
+    {
+      "task_id": "L-p02",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Add a dry-run endpoint that validates the uploaded CSV without producing the inventory report.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/services/inventory_service.py",
+            "src/delivery/http/handlers.py",
+            "src/integrations/csv_parser.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": ["app/routes.py", "app/service.py", "app/utils.py"],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/utils.py"]
+          ],
+          "target_layer": "routes"
+        }
+      }
+    },
+    {
+      "task_id": "L-p03",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "low",
+      "description": "Ignore comment lines that start with # when parsing CSV uploads.",
+      "ground_truth": {
+        "masa": {
+          "files": ["src/integrations/csv_parser.py"],
+          "edges": [["src/services/inventory_service.py", "src/integrations/csv_parser.py"]],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": ["app/utils.py"],
+          "edges": [["app/service.py", "app/utils.py"]],
+          "target_layer": "utils"
+        }
+      }
+    },
+    {
+      "task_id": "L-p04",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Add a warning list for products exactly at the low-stock threshold.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/inventory.py",
+            "src/engines/inventory_engine.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"],
+            ["src/engines/inventory_engine.py", "src/domain_models/inventory.py"]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": ["app/models.py", "app/service.py", "app/routes.py"],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/models.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    },
+    {
+      "task_id": "L-p05",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Add a summary section reporting total inbound and outbound quantities per product.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/inventory.py",
+            "src/engines/inventory_engine.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"],
+            ["src/engines/inventory_engine.py", "src/domain_models/inventory.py"]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": ["app/models.py", "app/service.py", "app/routes.py"],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/models.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    },
+    {
+      "task_id": "L-p06",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Reject rows whose timestamp is in the future.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/exceptions.py",
+            "src/integrations/csv_parser.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/integrations/csv_parser.py", "src/domain_models/exceptions.py"],
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": ["app/utils.py", "app/routes.py"],
+          "edges": [
+            ["app/service.py", "app/utils.py"],
+            ["app/routes.py", "app/service.py"]
+          ],
+          "target_layer": "utils"
+        }
+      }
+    },
+    {
+      "task_id": "L-p07",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Allow a custom low_stock_threshold query parameter for report generation.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/services/inventory_service.py",
+            "src/engines/inventory_engine.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": ["app/routes.py", "app/service.py"],
+          "edges": [["app/routes.py", "app/service.py"]],
+          "target_layer": "routes"
+        }
+      }
+    },
+    {
+      "task_id": "L-p08",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Add a dedicated endpoint that returns only anomalies detected in the uploaded inventory file.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/handlers.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/services/inventory_service.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/delivery/http/handlers.py", "src/delivery/schemas/inventory_schema.py"]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": ["app/routes.py", "app/service.py"],
+          "edges": [["app/routes.py", "app/service.py"]],
+          "target_layer": "routes"
+        }
+      }
+    },
+    {
+      "task_id": "L-f01",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Keep skipping malformed rows, but also report malformed_row_count in the API response.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/inventory.py",
+            "src/integrations/csv_parser.py",
+            "src/services/inventory_service.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/integrations/csv_parser.py", "src/domain_models/inventory.py"]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": ["app/utils.py", "app/service.py", "app/routes.py"],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/utils.py"]
+          ],
+          "target_layer": "utils"
+        }
+      }
+    },
+    {
+      "task_id": "L-f02",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Differentiate missing-column errors from invalid-quantity errors in the API response.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/exceptions.py",
+            "src/integrations/csv_parser.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/services/inventory_service.py", "src/integrations/csv_parser.py"],
+            ["src/integrations/csv_parser.py", "src/domain_models/exceptions.py"],
+            ["src/delivery/http/handlers.py", "src/domain_models/exceptions.py"]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": ["app/utils.py", "app/routes.py"],
+          "edges": [
+            ["app/service.py", "app/utils.py"],
+            ["app/routes.py", "app/service.py"]
+          ],
+          "target_layer": "utils"
+        }
+      }
+    },
+    {
+      "task_id": "L-f03",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "low",
+      "description": "Reject non-UTF-8 uploads with a structured error code in the response body.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/handlers.py",
+            "src/delivery/schemas/inventory_schema.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/delivery/schemas/inventory_schema.py"]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": ["app/routes.py"],
+          "edges": [],
+          "target_layer": "routes"
+        }
+      }
+    },
+    {
+      "task_id": "L-f04",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Stop processing when the same product goes negative more than three times and return a dedicated anomaly summary.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/inventory.py",
+            "src/engines/inventory_engine.py",
+            "src/delivery/schemas/inventory_schema.py",
+            "src/delivery/http/handlers.py"
+          ],
+          "edges": [
+            ["src/delivery/http/handlers.py", "src/services/inventory_service.py"],
+            ["src/services/inventory_service.py", "src/engines/inventory_engine.py"],
+            ["src/engines/inventory_engine.py", "src/domain_models/inventory.py"]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": ["app/models.py", "app/service.py", "app/routes.py"],
+          "edges": [
+            ["app/routes.py", "app/service.py"],
+            ["app/service.py", "app/models.py"]
+          ],
+          "target_layer": "service"
+        }
+      }
+    }
+  ]
+}

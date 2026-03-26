@@ -1,0 +1,1237 @@
+{
+  "version": "1.1",
+  "case": "case-m",
+  "description": "Task catalog for Case M (Task Management + Scheduling API), with dual ground truth for MASA and DDD/Clean baseline architectures.",
+  "tasks": [
+    {
+      "task_id": "M-r01",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Allow tasks to move into a blocked state through the update API.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/task.py",
+            "src/delivery/schemas/task_schemas.py",
+            "src/delivery/http/task_management_handler.py",
+            "src/services/task_management_service.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_management_service.py"
+            ],
+            [
+              "src/services/task_management_service.py",
+              "src/domain_models/task.py"
+            ]
+          ],
+          "target_layer": "domain_models"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/task.py",
+            "src/application/use_cases/update_task.py",
+            "src/presentation/http/task_schemas.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/update_task.py"
+            ],
+            [
+              "src/application/use_cases/update_task.py",
+              "src/domain/entities/task.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "M-r02",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Change the priority recommendation thresholds for short, medium, and very long tasks.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/engines/task_priority_engine.py",
+            "src/services/task_management_service.py",
+            "src/domain_models/task.py"
+          ],
+          "edges": [
+            [
+              "src/services/task_management_service.py",
+              "src/engines/task_priority_engine.py"
+            ],
+            [
+              "src/engines/task_priority_engine.py",
+              "src/domain_models/task.py"
+            ]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/services/task_priority_policy.py",
+            "src/application/use_cases/create_task.py",
+            "src/domain/entities/task.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/create_task.py",
+              "src/domain/services/task_priority_policy.py"
+            ],
+            [
+              "src/domain/services/task_priority_policy.py",
+              "src/domain/entities/task.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "M-r03",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "high",
+      "description": "Expose a task schedule snapshot when returning scheduled tasks to API clients.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/schedule.py",
+            "src/integrations/database/repos/schedule_repo.py",
+            "src/services/task_scheduling_service.py",
+            "src/delivery/schemas/task_schemas.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_scheduling_service.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/schedule_window_engine.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/notification_policy_engine.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/task_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/assignee_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/schedule_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/external_apis/notification_gateway.py"
+            ],
+            [
+              "src/engines/schedule_window_engine.py",
+              "src/domain_models/schedule.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/schedule.py",
+            "src/infrastructure/repositories/in_memory_schedule_repository.py",
+            "src/application/use_cases/list_tasks.py",
+            "src/presentation/http/task_schemas.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/list_tasks.py"
+            ],
+            [
+              "src/application/use_cases/list_tasks.py",
+              "src/application/interfaces/task_repository.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "M-r04",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Support SMS as an additional notification channel for task creation and scheduling.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/notification_policy.py",
+            "src/delivery/schemas/task_schemas.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_management_service.py"
+            ]
+          ],
+          "target_layer": "domain_models"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/value_objects/notification_policy.py",
+            "src/presentation/http/task_schemas.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/presentation/http/task_schemas.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "M-r05",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Include assignee timezone data in the notification event payload sent during scheduling.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/assignee.py",
+            "src/services/task_scheduling_service.py",
+            "src/integrations/external_apis/notification_gateway.py"
+          ],
+          "edges": [
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/assignee_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/external_apis/notification_gateway.py"
+            ],
+            [
+              "src/integrations/external_apis/notification_gateway.py",
+              "src/domain_models/assignee.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/assignee.py",
+            "src/application/use_cases/schedule_task.py",
+            "src/infrastructure/notifications/in_memory_notification_dispatcher.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/notification_dispatcher.py"
+            ],
+            [
+              "src/infrastructure/notifications/in_memory_notification_dispatcher.py",
+              "src/domain/entities/assignee.py"
+            ],
+            [
+              "src/infrastructure/notifications/in_memory_notification_dispatcher.py",
+              "src/domain/entities/task.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "M-r06",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Require reminders to happen at least fifteen minutes before the due time.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/engines/schedule_window_engine.py",
+            "src/engines/notification_policy_engine.py",
+            "src/services/task_scheduling_service.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_scheduling_service.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/schedule_window_engine.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/notification_policy_engine.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/task_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/assignee_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/schedule_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/external_apis/notification_gateway.py"
+            ],
+            [
+              "src/engines/schedule_window_engine.py",
+              "src/domain_models/schedule.py"
+            ]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/services/schedule_policy.py",
+            "src/application/use_cases/schedule_task.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/schedule_task.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/domain/services/schedule_policy.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "M-r07",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Add an is_assigned boolean to task response payloads without changing persistence.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/schemas/task_schemas.py",
+            "src/delivery/http/task_management_handler.py",
+            "src/domain_models/task.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_management_service.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/task_schemas.py",
+            "src/presentation/http/task_controller.py",
+            "src/domain/entities/task.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/presentation/http/task_schemas.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "M-r08",
+      "block": "retrieval",
+      "condition": "structure-only",
+      "difficulty": "high",
+      "description": "Prevent duplicate notifications when the same task is scheduled repeatedly with the same reminder data.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/integrations/external_apis/notification_gateway.py",
+            "src/integrations/database/repos/schedule_repo.py",
+            "src/services/task_scheduling_service.py"
+          ],
+          "edges": [
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/schedule_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/external_apis/notification_gateway.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/infrastructure/notifications/in_memory_notification_dispatcher.py",
+            "src/infrastructure/repositories/in_memory_schedule_repository.py",
+            "src/application/use_cases/schedule_task.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/schedule_repository.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/notification_dispatcher.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "M-g01",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Identify the request-to-persistence call chain for creating a task and computing its priority.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/task_management_handler.py",
+            "src/services/task_management_service.py",
+            "src/engines/task_priority_engine.py",
+            "src/integrations/database/repos/task_repo.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_management_service.py"
+            ],
+            [
+              "src/services/task_management_service.py",
+              "src/engines/task_priority_engine.py"
+            ],
+            [
+              "src/services/task_management_service.py",
+              "src/integrations/database/repos/task_repo.py"
+            ],
+            [
+              "src/engines/task_priority_engine.py",
+              "src/domain_models/task.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/task_controller.py",
+            "src/application/use_cases/create_task.py",
+            "src/domain/services/task_priority_policy.py",
+            "src/application/interfaces/task_repository.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/create_task.py"
+            ],
+            [
+              "src/application/use_cases/create_task.py",
+              "src/domain/services/task_priority_policy.py"
+            ],
+            [
+              "src/application/use_cases/create_task.py",
+              "src/application/interfaces/task_repository.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "M-g02",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "low",
+      "description": "Identify the collaborators involved in task assignment, including assignee verification.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/task_management_handler.py",
+            "src/services/task_assignment_service.py",
+            "src/integrations/database/repos/task_repo.py",
+            "src/integrations/database/repos/assignee_repo.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_assignment_service.py"
+            ],
+            [
+              "src/services/task_assignment_service.py",
+              "src/integrations/database/repos/task_repo.py"
+            ],
+            [
+              "src/services/task_assignment_service.py",
+              "src/integrations/database/repos/assignee_repo.py"
+            ],
+            [
+              "src/services/task_assignment_service.py",
+              "src/domain_models/task.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/task_controller.py",
+            "src/application/use_cases/assign_task.py",
+            "src/application/interfaces/task_repository.py",
+            "src/application/interfaces/assignee_repository.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/assign_task.py"
+            ],
+            [
+              "src/application/use_cases/assign_task.py",
+              "src/application/interfaces/task_repository.py"
+            ],
+            [
+              "src/application/use_cases/assign_task.py",
+              "src/application/interfaces/assignee_repository.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "M-g03",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Identify the full scheduling flow, from HTTP request through schedule validation to notification dispatch.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/task_management_handler.py",
+            "src/services/task_scheduling_service.py",
+            "src/engines/schedule_window_engine.py",
+            "src/engines/notification_policy_engine.py",
+            "src/integrations/database/repos/task_repo.py",
+            "src/integrations/database/repos/assignee_repo.py",
+            "src/integrations/database/repos/schedule_repo.py",
+            "src/integrations/external_apis/notification_gateway.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_scheduling_service.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/schedule_window_engine.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/notification_policy_engine.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/task_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/assignee_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/schedule_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/external_apis/notification_gateway.py"
+            ],
+            [
+              "src/engines/schedule_window_engine.py",
+              "src/domain_models/schedule.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/task_controller.py",
+            "src/application/use_cases/schedule_task.py",
+            "src/domain/services/schedule_policy.py",
+            "src/application/interfaces/task_repository.py",
+            "src/application/interfaces/assignee_repository.py",
+            "src/application/interfaces/schedule_repository.py",
+            "src/application/interfaces/notification_dispatcher.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/schedule_task.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/domain/services/schedule_policy.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/task_repository.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/assignee_repository.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/schedule_repository.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/notification_dispatcher.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "M-g04",
+      "block": "graph-reconstruction",
+      "condition": "structure-only",
+      "difficulty": "medium",
+      "description": "Map the failure path for invalid schedule requests from delivery down to the validation logic.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/http/task_management_handler.py",
+            "src/services/task_scheduling_service.py",
+            "src/engines/schedule_window_engine.py",
+            "src/engines/notification_policy_engine.py",
+            "src/domain_models/exceptions.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_scheduling_service.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/schedule_window_engine.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/notification_policy_engine.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/task_controller.py",
+            "src/application/use_cases/schedule_task.py",
+            "src/domain/services/schedule_policy.py",
+            "src/domain/errors.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/schedule_task.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/domain/services/schedule_policy.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "M-p01",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Allow clients to move a task into a blocked state through the update endpoint.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/task.py",
+            "src/delivery/schemas/task_schemas.py",
+            "src/delivery/http/task_management_handler.py",
+            "src/services/task_management_service.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_management_service.py"
+            ],
+            [
+              "src/services/task_management_service.py",
+              "src/domain_models/task.py"
+            ]
+          ],
+          "target_layer": "domain_models"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/task.py",
+            "src/application/use_cases/update_task.py",
+            "src/presentation/http/task_schemas.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/update_task.py"
+            ],
+            [
+              "src/application/use_cases/update_task.py",
+              "src/domain/entities/task.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "M-p02",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Support SMS as a valid notification channel end-to-end.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/notification_policy.py",
+            "src/delivery/schemas/task_schemas.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_management_service.py"
+            ],
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_scheduling_service.py"
+            ]
+          ],
+          "target_layer": "domain_models"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/value_objects/notification_policy.py",
+            "src/presentation/http/task_schemas.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/presentation/http/task_schemas.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "M-p03",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "When assigning a draft task, automatically transition it to in_progress.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/task.py",
+            "src/services/task_assignment_service.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_assignment_service.py"
+            ],
+            [
+              "src/services/task_assignment_service.py",
+              "src/integrations/database/repos/task_repo.py"
+            ],
+            [
+              "src/services/task_assignment_service.py",
+              "src/integrations/database/repos/assignee_repo.py"
+            ],
+            [
+              "src/services/task_assignment_service.py",
+              "src/domain_models/task.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/application/use_cases/assign_task.py",
+            "src/domain/entities/task.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/assign_task.py"
+            ],
+            [
+              "src/application/use_cases/assign_task.py",
+              "src/application/interfaces/task_repository.py"
+            ],
+            [
+              "src/application/use_cases/assign_task.py",
+              "src/application/interfaces/assignee_repository.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "M-p04",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "low",
+      "description": "Add an is_assigned boolean to task response payloads.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/delivery/schemas/task_schemas.py",
+            "src/delivery/http/task_management_handler.py",
+            "src/domain_models/task.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_management_service.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/presentation/http/task_schemas.py",
+            "src/presentation/http/task_controller.py",
+            "src/domain/entities/task.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/presentation/http/task_schemas.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "M-p05",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Include assignee timezone in notification events emitted after scheduling.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/assignee.py",
+            "src/services/task_scheduling_service.py",
+            "src/integrations/external_apis/notification_gateway.py"
+          ],
+          "edges": [
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/assignee_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/external_apis/notification_gateway.py"
+            ],
+            [
+              "src/integrations/external_apis/notification_gateway.py",
+              "src/domain_models/assignee.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/assignee.py",
+            "src/application/use_cases/schedule_task.py",
+            "src/infrastructure/notifications/in_memory_notification_dispatcher.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/notification_dispatcher.py"
+            ],
+            [
+              "src/infrastructure/notifications/in_memory_notification_dispatcher.py",
+              "src/domain/entities/assignee.py"
+            ],
+            [
+              "src/infrastructure/notifications/in_memory_notification_dispatcher.py",
+              "src/domain/entities/task.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "M-p06",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Reject schedules that leave less than fifteen minutes between reminder and due time.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/engines/schedule_window_engine.py",
+            "src/engines/notification_policy_engine.py",
+            "src/services/task_scheduling_service.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_scheduling_service.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/schedule_window_engine.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/notification_policy_engine.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/task_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/assignee_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/schedule_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/external_apis/notification_gateway.py"
+            ],
+            [
+              "src/engines/schedule_window_engine.py",
+              "src/domain_models/schedule.py"
+            ]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/services/schedule_policy.py",
+            "src/application/use_cases/schedule_task.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/schedule_task.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/domain/services/schedule_policy.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    },
+    {
+      "task_id": "M-p07",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Do not append duplicate notification events when the same task is scheduled repeatedly with identical data.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/integrations/external_apis/notification_gateway.py",
+            "src/integrations/database/repos/schedule_repo.py",
+            "src/services/task_scheduling_service.py"
+          ],
+          "edges": [
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/schedule_repo.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/external_apis/notification_gateway.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/infrastructure/notifications/in_memory_notification_dispatcher.py",
+            "src/infrastructure/repositories/in_memory_schedule_repository.py",
+            "src/application/use_cases/schedule_task.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/schedule_repository.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/notification_dispatcher.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "M-p08",
+      "block": "patch",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Return schedule_id, due_at, and reminder_at inside task list items for scheduled tasks.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/schedule.py",
+            "src/integrations/database/repos/schedule_repo.py",
+            "src/services/task_management_service.py",
+            "src/delivery/schemas/task_schemas.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_management_service.py"
+            ],
+            [
+              "src/services/task_management_service.py",
+              "src/integrations/database/repos/task_repo.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/schedule.py",
+            "src/infrastructure/repositories/in_memory_schedule_repository.py",
+            "src/application/use_cases/list_tasks.py",
+            "src/presentation/http/task_schemas.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/list_tasks.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "M-f01",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Reject scheduling requests when the task has no assignee, surfacing a semantic error to the client.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/exceptions.py",
+            "src/services/task_scheduling_service.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_scheduling_service.py"
+            ]
+          ],
+          "target_layer": "services"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/errors.py",
+            "src/application/use_cases/schedule_task.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/schedule_task.py"
+            ]
+          ],
+          "target_layer": "application"
+        }
+      }
+    },
+    {
+      "task_id": "M-f02",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "high",
+      "description": "Reject duplicate schedule creation for the same task with a dedicated error instead of silently overwriting it.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/exceptions.py",
+            "src/integrations/database/repos/schedule_repo.py",
+            "src/services/task_scheduling_service.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_scheduling_service.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/integrations/database/repos/schedule_repo.py"
+            ]
+          ],
+          "target_layer": "integrations"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/errors.py",
+            "src/infrastructure/repositories/in_memory_schedule_repository.py",
+            "src/application/use_cases/schedule_task.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/application/interfaces/schedule_repository.py"
+            ]
+          ],
+          "target_layer": "infrastructure"
+        }
+      }
+    },
+    {
+      "task_id": "M-f03",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Reject unknown task status values with a stable API-level error instead of letting them slip into persistence.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/task.py",
+            "src/delivery/schemas/task_schemas.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_management_service.py"
+            ]
+          ],
+          "target_layer": "delivery"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/entities/task.py",
+            "src/presentation/http/task_schemas.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/presentation/http/task_schemas.py"
+            ]
+          ],
+          "target_layer": "presentation"
+        }
+      }
+    },
+    {
+      "task_id": "M-f04",
+      "block": "failure-path",
+      "condition": "full-edit",
+      "difficulty": "medium",
+      "description": "Surface invalid notification policies as a specific business error response rather than a generic validation leak.",
+      "ground_truth": {
+        "masa": {
+          "files": [
+            "src/domain_models/exceptions.py",
+            "src/engines/notification_policy_engine.py",
+            "src/services/task_scheduling_service.py",
+            "src/delivery/http/task_management_handler.py"
+          ],
+          "edges": [
+            [
+              "src/delivery/http/task_management_handler.py",
+              "src/services/task_scheduling_service.py"
+            ],
+            [
+              "src/services/task_scheduling_service.py",
+              "src/engines/notification_policy_engine.py"
+            ]
+          ],
+          "target_layer": "engines"
+        },
+        "baseline": {
+          "files": [
+            "src/domain/errors.py",
+            "src/domain/services/schedule_policy.py",
+            "src/application/use_cases/schedule_task.py",
+            "src/presentation/http/task_controller.py"
+          ],
+          "edges": [
+            [
+              "src/presentation/http/task_controller.py",
+              "src/application/use_cases/schedule_task.py"
+            ],
+            [
+              "src/application/use_cases/schedule_task.py",
+              "src/domain/services/schedule_policy.py"
+            ]
+          ],
+          "target_layer": "domain"
+        }
+      }
+    }
+  ]
+}
