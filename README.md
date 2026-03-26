@@ -2,6 +2,8 @@
 
 > An architecture framework designed to maximize **cognizability** — the degree to which AI agents can understand, navigate, and safely modify a codebase through static inspection alone.
 
+📄 **Read the full study:** [www.masa-framework.org](https://www.masa-framework.org/)
+
 ---
 
 ## Why MASA?
