@@ -33,9 +33,9 @@ class BedrockProvider(BaseLLMProvider):
         self,
         *,
         model_id: str,
-        profile_name: str = "codeboost",
-        region_name: str = "us-east-1",
-        max_tokens: int = 2048,
+        profile_name: str = "",
+        region_name: str = "",
+        max_tokens: int = ,
         temperature: float = 0.0,
     ) -> None:
         super().__init__(model_id=model_id, max_tokens=max_tokens, temperature=temperature)
